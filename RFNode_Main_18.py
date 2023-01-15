@@ -70,7 +70,7 @@ class PrincipalWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.conf_tipo_cbox.currentTextChanged.connect(self.limpa_bloco)
         # evento botao tasks preview
-        self.scan_tarefas_bt.clicked.connect(self.seleciona_bloco)
+        self.scan_tarefas_bt.clicked.connect(self.selecionaaaasada_bloco)
         # evento botao inserir identificador
         self.conf_inserir_bt.clicked.connect(self.inserir_variaveis)
         # evento botao inserir identificador
