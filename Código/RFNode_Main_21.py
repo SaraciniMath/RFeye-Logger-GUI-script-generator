@@ -3,6 +3,7 @@
 
 # pyrcc5 logo.qrc -o logo_rc.py
 # pyinstaller --onefile --noconsole --hidden-import=PyQt5.QtCore --hidden-import=PyQt5.QtGui RFNode_Main_19.py
+# pyinstaller --onefile --noconsole --icon=if_logo-removebg-preview.ico --hidden-import=PyQt5.QtCore --hidden-import=PyQt5.QtGui RFeyeLoggerConfigurator.py
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -966,6 +967,46 @@ class PrincipalWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 print(self.list_tasks_msg)
                 self.linha_msg = self.linha_msg + 1
 
+    # def excluir_linha(self, task_tab):
+    #     table_map = {'occ': self.window.occ_table,
+    #                  'peak': self.window.peak_table,
+    #                  'gps': self.window.gps_table,
+    #                  'info': self.window.info_table,
+    #                  'mean': self.window.mean_table,
+    #                  'audit': self.window.audit_table,
+    #                  'msg': self.window.msg_table}
+    #     list_map = {'occ': self.list_tasks_occ,
+    #                 'peak': self.list_tasks_peak,
+    #                 'gps': self.list_tasks_gps,
+    #                 'info': self.list_tasks_info,
+    #                 'mean': self.list_tasks_mean,
+    #                 'audit': self.list_tasks_audit,
+    #                 'msg': self.list_tasks_msg}
+    #     linha_map = {'occ': self.linha_occ,
+    #                  'peak': self.linha_peak,
+    #                  'gps': self.linha_gps,
+    #                  'info': self.linha_info,
+    #                  'mean': self.linha_mean,
+    #                  'audit': self.linha_audit,
+    #                  'msg': self.linha_msg}
+    #     if self.scan_scan_radio.isChecked():
+    #         table = table_map.get(task_tab, None)
+    #         lista = list_map.get(task_tab, None)
+    #         linha = linha_map.get(task_tab, None)
+    #         if table is not None and table.currentRow() >= 0:
+    #             lista.pop(table.currentRow())
+    #             table.removeRow(table.currentRow())
+    #             linha -= 1
+    #     elif self.scan_timer_radio.isChecked():
+    #         table = table_map.get(task_tab, None)
+    #         lista = list_map.get(task_tab, None)
+    #         linha = linha_map.get(task_tab, None)
+    #         if table is not None and table.currentRow() >= 0:
+    #             lista.pop(table.currentRow())
+    #             table.removeRow(table.currentRow())
+    #             linha -= 1
+
+
     def excluir_linha(self, task_tab):
         if self.scan_scan_radio.isChecked():
             if self.window.occ_table.currentRow() >= 0 and task_tab == 'occ':
@@ -1165,6 +1206,7 @@ class PrincipalWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             campo_box = getattr(self, campo)
             if check_box.isChecked():
                 campo_box.setEnabled(True)
+                # self.inser_variavel_label(campo)
             else:
                 campo_box.setEnabled(False)
         except:
@@ -1178,6 +1220,16 @@ class PrincipalWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 campo_box.setEnabled(True)
             else:
                 campo_box.setEnabled(False)
+
+    def inser_variavel_label(self, nome):
+        if nome == 'conf_tamanho_sbox':
+            # current_values_vardir = self.stream_vardir_cbox.currentText()
+            self.stream_vardir_cbox.clear()
+            # current_values_varname = self.stream_varname_cbox.currentText()
+            self.stream_varname_cbox.clear()
+            self.stream_vardir_cbox.addItem('max_file_size')
+            # self.stream_vardir_cbox.addItems(current_values_vardir)
+            self.stream_varname_cbox.addItem('max_file_size')
 
     def visualizar_blocos(self):
         # for x in range(len(self.list_occ_timer)):
@@ -1737,14 +1789,14 @@ class PrincipalWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         listaCodigo.append("\n\n[config]\n")
 
         if self.conf_tamanho_check.isChecked():
-            listaCodigo.append("\nmax_file_size = " + str(int(self.conf_tamanho_sbox.text()) * 1000))
+            listaCodigo.append("\nmax_file_size = " + str(int(self.conf_tamanho_sbox.text().replace('.', '')) * 1000))
         if self.conf_estacao_check.isChecked():
             listaCodigo.append("\nunit_info = " + '"' + str(self.conf_estacao_edit.text()) + '"')
         if self.conf_dir_check.isChecked():
             listaCodigo.append("\ndata_dir = " + '"' + str(self.conf_dir_edit.text()) + '"')
 
-        if not self.conf_dir_check.isChecked():
-            listaCodigo.append("\ndata_dir = " + '"' + '/mnt/internal' + '"')
+        # if not self.conf_dir_check.isChecked():
+        #     listaCodigo.append("\ndata_dir = " + '"' + '/mnt/internal' + '"')
 
         if self.conf_metodo_check.isChecked():
             listaCodigo.append("\nmethod = " + '"' + str(self.conf_metodo_edit.text()) + '"')
